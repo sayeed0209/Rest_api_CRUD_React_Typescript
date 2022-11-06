@@ -1,10 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IPost, TodoContextType, Props } from './interfaces';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 const PostContext = React.createContext<TodoContextType | null>(null);
 export const AppProvider: React.FC<Props> = ({ children }) => {
-	const [posts, setPosts] = useState<IPost[]>([]);
+	const [posts, setPosts] = useState<IPost[]>([
+		{
+			id: 1,
+			title: 'Madrid',
+			content:
+				'Madrid is the capital of Spain and the largest municipality in both the Community of Madrid and Spain as a whole.',
+			lat: '40.41678',
+			long: '-3.70379',
+			image_url:
+				'https://c2.staticflickr.com/2/1269/4670777817_d657cd9819_b.jpg',
+			created_at: '2022-06-20T12:09:47.921Z',
+			updated_at: '2022-06-20T12:09:47.921Z',
+		},
+		{
+			id: 102,
+			title: 'Barcelona',
+			content:
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
+			lat: '',
+			long: '',
+			image_url:
+				'https://images.unsplash.com/photo-1667499745120-f9bcef8f584e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=461&q=80',
+			created_at: '2022-11-05T21:16:38.954Z',
+			updated_at: '2022-11-06T12:25:27.009Z',
+		},
+	]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [formData, setFormData] = useState({
@@ -51,8 +76,8 @@ export const AppProvider: React.FC<Props> = ({ children }) => {
 				icon: 'error',
 				title: 'Oops...',
 				text: 'Please enter title and description to create a post',
-				footer: '<a href="">Why do I have this issue?</a>'
-			  })
+				footer: '<a href="">Why do I have this issue?</a>',
+			});
 			return;
 		} else {
 			try {
@@ -69,7 +94,7 @@ export const AppProvider: React.FC<Props> = ({ children }) => {
 						'Good job!',
 						'Post has been created successfully!',
 						'success'
-					  )
+					);
 					fetchPosts();
 					navigate('/');
 				}
@@ -86,12 +111,7 @@ export const AppProvider: React.FC<Props> = ({ children }) => {
 			method: 'DELETE',
 		});
 		if (resp.status === 204) {
-		
-			Swal.fire(
-				'Okay!',
-				'Post has been deleted successfully!',
-				'warning'
-			  )
+			Swal.fire('Okay!', 'Post has been deleted successfully!', 'warning');
 			fetchPosts();
 			navigate('/');
 		}
@@ -107,11 +127,7 @@ export const AppProvider: React.FC<Props> = ({ children }) => {
 			body: JSON.stringify(formData),
 		});
 		if (resp.status === 200) {
-			Swal.fire(
-				'Success!',
-				'Post has been updated successfully!',
-				'info'
-			  )
+			Swal.fire('Success!', 'Post has been updated successfully!', 'info');
 			fetchPosts();
 			navigate('/');
 		}
